@@ -43,8 +43,7 @@ public class ConsoleHandler {
                 return;
             }
             String[] userData = command.split(COMMAND_SPLITTING_SYMBOL);
-            User user = null;
-            user = new User(userData[0], userData[1]);
+            User user = new User(userData[0], userData[1]);
             userDao.add(user);
             System.out.println(user);
         }
