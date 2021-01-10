@@ -1,18 +1,21 @@
 package core.basesyntax.controller;
 
 import core.basesyntax.dao.BetDao;
-import core.basesyntax.dao.BetDaoImpl;
 import core.basesyntax.dao.UserDao;
-import core.basesyntax.dao.UserDaoImpl;
+import core.basesyntax.lib.Dao;
+import core.basesyntax.lib.Inject;
 import core.basesyntax.model.Bet;
 import core.basesyntax.model.User;
 import java.util.Scanner;
 
+@Dao
 public class ConsoleHandler {
     private static final String CONSOLE_CLOSE_COMMAND = "q";
     private static final String COMMAND_SPLITTING_SYMBOL = " ";
-    private BetDao betDao = new BetDaoImpl();
-    private UserDao userDao = new UserDaoImpl();
+    @Inject
+    private BetDao betDao;
+    @Inject
+    private UserDao userDao;
 
     public void handleBet() {
         Scanner betScanner = new Scanner(System.in);
