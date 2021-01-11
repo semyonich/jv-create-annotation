@@ -9,10 +9,6 @@ import java.lang.reflect.InvocationTargetException;
 public class Injector {
     public static Object getInstance(Class clazz) throws NoSuchMethodException,
             IllegalAccessException, InvocationTargetException, InstantiationException {
-        if (clazz.getAnnotation(Dao.class) == null) {
-            throw new NoDaoAnnotationExeption("There is no @Dao annotation above classname "
-                    + clazz);
-        }
         Constructor constructor = clazz.getDeclaredConstructor();
         Object instance = constructor.newInstance();
         Field[] declaredFields = clazz.getDeclaredFields();
@@ -20,9 +16,17 @@ public class Injector {
             if (field.getAnnotation(Inject.class) != null) {
                 field.setAccessible(true);
                 if (field.getName().equals("betDao")) {
+                    if (Factory.getBetDao().getClass().getAnnotation(Dao.class) == null) {
+                        throw new NoDaoAnnotationExeption("There is no @Dao annotation above "
+                    + Factory.getBetDao().getClass());
+                    }
                     field.set(instance, Factory.getBetDao());
                 }
                 if (field.getName().equals("userDao")) {
+                    if (Factory.getUserDao().getClass().getAnnotation(Dao.class) == null) {
+                        throw new NoDaoAnnotationExeption("There is no @Dao annotation above "
+                                + Factory.getUserDao().getClass());
+                    }
                     field.set(instance, Factory.getUserDao());
                 }
             }
